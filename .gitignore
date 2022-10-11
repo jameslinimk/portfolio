@@ -2,8 +2,8 @@
 node_modules
 /build
 /.svelte-kit
-/.history
 /package
+/.history
 .env
 .env.*
 !.env.example
