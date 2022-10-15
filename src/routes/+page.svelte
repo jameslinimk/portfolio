@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte"
+
 	const projects = [
 		[
 			"Chess engine",
@@ -31,14 +33,29 @@
 			"https://www.google.com/"
 		]
 	]
+	const titles = ["programmer", "student", "learner"]
+
+	let subtitleText: string
+	onMount(() => {
+		let i = 0
+
+		setInterval(() => {
+			subtitleText = titles[i]
+			i += 1
+			if (i > titles.length - 1) i = 0
+		}, 1000)
+	})
 </script>
 
 <div class="absolute top-0 left-0 min-w-full min-h-full bg-[#222225] -z-50 overflow-hidden">
 	<div
 		class="w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 sticky top-0 z-30"
 	>
+		<!-- FIXME: sticky doesnt work -->
 		<h1 class="font-m-plus text-6xl text-[#ebebeb] font-bold">James Lin</h1>
-		<h2 class="font-mono text-2xl text-[#ebebeb] font-semibold">I am a programmer</h2>
+		<h2 class="font-mono text-2xl text-[#ebebeb] font-semibold">
+			I am a <span class="subtitle"> {subtitleText} </span>
+		</h2>
 	</div>
 
 	<p class="font-m-plus text-xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-32 mt-2">
@@ -59,7 +76,7 @@
 		<div class="text-center">
 			{#each projects as project}
 				<div
-					class="bg-[#2a2b2e] w-fit max-w-[15rem] md:max-w-xs rounded-md shadow-black shadow-sm relative overflow-hidden hover:scale-110 transition-all cursor-pointer group hover:z-20 clear-left inline-block mx-[0.18rem]"
+					class="bg-[#2a2b2e] w-fit max-w-full sm:max-w-xs rounded-md shadow-black shadow-sm relative overflow-hidden hover:scale-110 transition-all cursor-pointer group hover:z-20 clear-left inline-block mx-3 mb-4"
 				>
 					<img
 						src={project[2]}
@@ -69,14 +86,12 @@
 
 					<div class="px-4 pt-4">
 						<h1
-							class="font-m-plus text-[#ebebeb] text-center text-xl md:text-2xl font-bold relative transition-all"
+							class="font-m-plus text-[#ebebeb] text-center text-2xl font-bold relative transition-all"
 						>
 							{project[0]}
 						</h1>
 
-						<p
-							class="font-m-plus text-[#ebebeb] text-center text-sm md:text-base relative transition-all"
-						>
+						<p class="font-m-plus text-[#ebebeb] text-center relative transition-all">
 							{project[1]}
 						</p>
 					</div>
@@ -99,3 +114,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.subtitle {
+		transition: 3s;
+	}
+</style>
