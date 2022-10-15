@@ -33,28 +33,61 @@
 			"https://www.google.com/"
 		]
 	]
+
 	const titles = ["programmer", "student", "learner"]
+	const wait = (time: number) => new Promise((res) => setTimeout(res, time))
 
-	let subtitleText: string
+	let subIndex = 0
+	let subtitleText = titles[subIndex]
 	onMount(() => {
-		let i = 0
+		setInterval(async () => {
+			for (let i = 0, l = subtitleText.length; i < l; i++) {
+				subtitleText = subtitleText.slice(0, -1)
+				await wait(50)
+			}
 
-		setInterval(() => {
-			subtitleText = titles[i]
-			i += 1
-			if (i > titles.length - 1) i = 0
-		}, 1000)
+			await wait(1000)
+
+			const chars = titles[subIndex].split("")
+			for (const char of chars) {
+				subtitleText += char
+				await wait(50)
+			}
+
+			subIndex += 1
+			if (subIndex > titles.length - 1) subIndex = 0
+		}, 5000)
+	})
+
+	let topbar: HTMLDivElement
+	let title: HTMLHeadingElement
+	let subtitle: HTMLHeadingElement
+	onMount(() => {
+		const observer = new IntersectionObserver(
+			([e]) => {
+				topbar.classList.toggle("topbar-parent-hover", e.intersectionRatio < 1)
+				console.log("sticky", e.intersectionRatio < 1)
+			},
+			{ threshold: [1] }
+		)
+		observer.observe(topbar)
 	})
 </script>
 
-<div class="absolute top-0 left-0 min-w-full min-h-full bg-[#222225] -z-50 overflow-hidden">
+<div class="absolute top-0 left-0 min-w-full min-h-full bg-[#222225] -z-50">
 	<div
-		class="w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 sticky top-0 z-30"
+		class="w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 sticky -top-[0.01px] z-30 group transition-all"
+		bind:this={topbar}
 	>
-		<!-- FIXME: sticky doesnt work -->
-		<h1 class="font-m-plus text-6xl text-[#ebebeb] font-bold">James Lin</h1>
-		<h2 class="font-mono text-2xl text-[#ebebeb] font-semibold">
-			I am a <span class="subtitle"> {subtitleText} </span>
+		<h1 class="font-m-plus text-6xl text-[#ebebeb] font-bold transition-all" bind:this={title}>
+			James Lin
+		</h1>
+		<h2
+			class="font-mono text-2xl text-[#ebebeb] font-semibold relative transition-all"
+			bind:this={subtitle}
+		>
+			I am a {subtitleText}
+			<div class="bg-[#ebebeb] rounded-sm w-4 h-1 absolute -right-4 bottom-0 blinker" />
 		</h2>
 	</div>
 
@@ -71,8 +104,8 @@
 		est Lorem ipsum dolor sit amet.
 	</p>
 
-	<div class="flex flex-col justify-center items-center">
-		<h1 class="font-m-plus font-bold text-5xl text-[#ebebeb] my-5">My Projects</h1>
+	<div class="flex flex-col justify-center items-center overflow-hidden">
+		<h1 class="font-m-plus font-bold text-3xl text-[#ebebeb] my-5">My Projects</h1>
 		<div class="text-center">
 			{#each projects as project}
 				<div
@@ -116,7 +149,25 @@
 </div>
 
 <style>
-	.subtitle {
-		transition: 3s;
+	.blinker {
+		animation: blink 1s step-start infinite;
+	}
+
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+
+	.topbar-parent-hover {
+		@apply max-h-fit p-1;
+	}
+
+	.title-hover {
+		@apply text-2xl;
+	}
+
+	.subtitle-hover {
+		@apply hidden;
 	}
 </style>
