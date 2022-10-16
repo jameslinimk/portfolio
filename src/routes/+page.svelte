@@ -1,39 +1,6 @@
 <script lang="ts">
 	import Projects from "$lib/components/projects.svelte"
 	import Topbar from "$lib/components/topbar.svelte"
-
-	const projects: [name: string, description: string, image: string, href: string][] = [
-		[
-			"Chess engine",
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-			"https://wallpaperaccess.com/full/2918041.jpg",
-			"https://www.google.com/"
-		],
-		[
-			"Chess engine",
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-			"https://wallpaperaccess.com/full/2918041.jpg",
-			"https://www.google.com/"
-		],
-		[
-			"Chess engine",
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-			"https://wallpaperaccess.com/full/2918041.jpg",
-			"https://www.google.com/"
-		],
-		[
-			"Chess engine",
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-			"https://wallpaperaccess.com/full/2918041.jpg",
-			"https://www.google.com/"
-		],
-		[
-			"Chess engine",
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-			"https://wallpaperaccess.com/full/2918041.jpg",
-			"https://www.google.com/"
-		]
-	]
 </script>
 
 <Topbar />

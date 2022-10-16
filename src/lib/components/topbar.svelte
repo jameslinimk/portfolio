@@ -95,7 +95,7 @@
 	</div>
 </div>
 
-<style>
+<style type="text/postcss">
 	.blinker {
 		animation: blink 1s step-start infinite;
 	}

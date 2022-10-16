@@ -11,6 +11,9 @@
 		"lint": "prettier --plugin-search-dir . --check .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"dependencies": {
+		"marked": "^4.1.1"
+	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
@@ -28,8 +31,5 @@
 		"typescript": "^4.7.4",
 		"vite": "^3.1.0"
 	},
-	"type": "module",
-	"dependencies": {
-		"marked": "^4.1.1"
-	}
+	"type": "module"
 }
