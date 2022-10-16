@@ -1,16 +1,18 @@
 <script lang="ts">
-	export let projects: [name: string, description: string, image: string, href: string][]
+	import { github } from "$lib/config.js"
+	import { projects } from "$lib/projects"
 </script>
 
 <div class="flex flex-col justify-center items-center overflow-hidden">
 	<h1 class="font-m-plus font-bold text-3xl text-[#ebebeb] my-5">My Projects</h1>
 	<div class="text-center">
 		{#each projects as project}
-			<div
-				class="bg-[#2a2b2e] w-fit max-w-full sm:max-w-xs rounded-md shadow-black shadow-sm relative overflow-hidden hover:scale-110 transition-all cursor-pointer group hover:z-20 clear-left inline-block mx-3 mb-4"
+			<a
+				href="/projects/{project.id}"
+				class="bg-[#2a2b2e] w-fit max-w-full sm:max-w-xs rounded-md shadow-black shadow-sm relative overflow-hidden hover:scale-110 transition-all cursor-pointer group hover:z-20 clear-left inline-block mx-10 sm:mx-3 mb-4"
 			>
 				<img
-					src={project[2]}
+					src={project.image}
 					alt="chess"
 					class="w-full opacity-70 group-hover:opacity-100 transition-all"
 				/>
@@ -19,16 +21,16 @@
 					<h1
 						class="font-m-plus text-[#ebebeb] text-center text-2xl font-bold relative transition-all"
 					>
-						{project[0]}
+						{project.title}
 					</h1>
 
 					<p class="font-m-plus text-[#ebebeb] text-center relative transition-all">
-						{project[1]}
+						{project.description}
 					</p>
 				</div>
 
 				<div class="w-full flex m-2">
-					<a href={project[3]} target="_blank">
+					<a href="https://github.com/{github}/{project.github}" target="_blank">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-6 transition-all z-10 fill-[#ebebeb] hover:fill-[#d8d8d8] hover:scale-125"
@@ -40,7 +42,7 @@
 						</svg>
 					</a>
 				</div>
-			</div>
+			</a>
 		{/each}
 	</div>
 </div>

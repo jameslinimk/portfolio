@@ -1,9 +1,8 @@
 <script lang="ts">
+	import { discord, github, titles } from "$lib/config.js"
 	import { onMount } from "svelte"
 
-	export let titles: string[]
-	export let github: string
-	export let discord: string
+	export let forcePinned = false
 
 	const wait = (time: number) => new Promise((res) => setTimeout(res, time))
 
@@ -11,6 +10,9 @@
 	let subtitleText = titles[subIndex]
 	onMount(() => {
 		setInterval(async () => {
+			subIndex += 1
+			if (subIndex > titles.length - 1) subIndex = 0
+
 			for (let i = 0, l = subtitleText.length; i < l; i++) {
 				subtitleText = subtitleText.slice(0, -1)
 				await wait(50)
@@ -23,16 +25,15 @@
 				subtitleText += char
 				await wait(50)
 			}
-
-			subIndex += 1
-			if (subIndex > titles.length - 1) subIndex = 0
 		}, 5000)
 	})
 
 	let topbar: HTMLDivElement
-	let pinned = false
+	let pinned = forcePinned
 
 	onMount(() => {
+		if (forcePinned) return
+
 		const observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
 			threshold: [1]
 		})
@@ -45,12 +46,13 @@
 	bind:this={topbar}
 	class:topbar-pin={pinned}
 >
-	<h1
+	<a
+		href="/"
 		class="font-m-plus text-6xl text-[#ebebeb] font-bold transition-all text-center"
 		class:title-pin={pinned}
 	>
 		James Lin
-	</h1>
+	</a>
 	<h2
 		class="font-mono text-2xl text-[#ebebeb] font-semibold relative transition-all text-center"
 		class:subtitle-pin={pinned}
@@ -62,8 +64,9 @@
 		<a href="https://discord.com/users/{discord}" target="_blank">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="w-9 sm:w-11 hover:scale-105 fill-[#d8d8d8] hover:fill-[#ececec] transition-all"
+				class="w-7 sm:w-9 hover:scale-105 fill-[#d8d8d8] hover:fill-[#ececec] transition-all"
 				viewBox="0 0 71 55"
+				class:icon-pin={pinned}
 			>
 				<g clip-path="url(#clip0)">
 					<path
@@ -80,8 +83,9 @@
 		<a href="https://github.com/{github}" target="_blank">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="w-8 sm:w-10 m-2 z-10 fill-[#d8d8d8] hover:scale-105 hover:fill-[#ececec] transition-all"
+				class="w-6 sm:w-8 m-2 z-10 fill-[#d8d8d8] hover:scale-105 hover:fill-[#ececec] transition-all"
 				viewBox="0 0 24 24"
+				class:icon-pin={pinned}
 			>
 				<path
 					d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
@@ -112,5 +116,9 @@
 
 	.subtitle-pin {
 		@apply hidden;
+	}
+
+	.icon-pin {
+		@apply scale-75 m-0;
 	}
 </style>
