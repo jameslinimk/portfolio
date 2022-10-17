@@ -13,7 +13,7 @@
 			>
 				<img
 					src={project.image}
-					alt="chess"
+					alt={project.title}
 					class="w-full opacity-70 group-hover:opacity-100 transition-all"
 				/>
 

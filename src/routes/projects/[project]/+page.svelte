@@ -18,17 +18,24 @@
 </script>
 
 <Topbar forcePinned={true} />
-<div class="min-w-full flex items-center justify-center p-2 mt-3">
+<h1 class="font-m-plus text-5xl font-bold text-[#ececec]">
+	{data.project.title}
+</h1>
+<img src={data.project.image} alt={data.project.title} class="" />
+<div class="min-w-full flex items-center justify-center p-3">
 	{#if readme}
 		<article
 			class="prose prose-lg md:prose-xl
 
-			prose-headings:font-m-plus
 			prose-headings:text-[#ececec]
+			
 			prose-p:text-[#ececec]
+
 			prose-a:text-blue-300
+
 			prose-td:text-[#ececec]
-			prose-code:bg-slate-800
+
+			prose-code:bg-[#1d1d21]
 			prose-code:rounded-md
 			prose-code:text-[#ececec]"
 		>
