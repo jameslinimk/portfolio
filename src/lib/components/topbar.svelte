@@ -28,7 +28,7 @@
 		}, 5000)
 	})
 
-	let topbar: HTMLDivElement
+	let pinnedDiv: HTMLDivElement
 	let pinned = forcePinned
 
 	onMount(() => {
@@ -37,13 +37,15 @@
 		const observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
 			threshold: [1]
 		})
-		observer.observe(topbar)
+		observer.observe(pinnedDiv)
 	})
 </script>
 
+<!-- Div to detect if pinned -->
+<div class="min-w-full -top-[0.01px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
+
 <div
-	class="w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 sticky -top-[0.01px] z-30 group transition-all"
-	bind:this={topbar}
+	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all"
 	class:topbar-pin={pinned}
 >
 	<a
@@ -55,18 +57,17 @@
 	</a>
 	<h2
 		class="font-mono text-2xl text-[#ebebeb] font-semibold relative transition-all text-center"
-		class:subtitle-pin={pinned}
+		class:hidden-pin={pinned}
 	>
 		I am a {subtitleText}
 		<div class="bg-[#ebebeb] rounded-sm w-4 h-1 absolute -right-4 bottom-0 blinker" />
 	</h2>
-	<div class="flex items-center justify-center gap-1">
+	<div class="flex items-center justify-center gap-1" class:hidden-pin={pinned}>
 		<a href="https://discord.com/users/{discord}" target="_blank">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="w-7 sm:w-9 hover:scale-105 fill-[#d8d8d8] hover:fill-[#ececec] transition-all"
 				viewBox="0 0 71 55"
-				class:icon-pin={pinned}
 			>
 				<g clip-path="url(#clip0)">
 					<path
@@ -85,7 +86,6 @@
 				xmlns="http://www.w3.org/2000/svg"
 				class="w-6 sm:w-8 m-2 z-10 fill-[#d8d8d8] hover:scale-105 hover:fill-[#ececec] transition-all"
 				viewBox="0 0 24 24"
-				class:icon-pin={pinned}
 			>
 				<path
 					d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
@@ -95,7 +95,7 @@
 	</div>
 </div>
 
-<style type="text/postcss">
+<style lang="postcss">
 	.blinker {
 		animation: blink 1s step-start infinite;
 	}
@@ -114,11 +114,7 @@
 		@apply text-2xl;
 	}
 
-	.subtitle-pin {
+	.hidden-pin {
 		@apply hidden;
-	}
-
-	.icon-pin {
-		@apply scale-75 m-0;
 	}
 </style>

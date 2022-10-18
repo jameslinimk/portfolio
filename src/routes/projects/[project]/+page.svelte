@@ -18,11 +18,10 @@
 </script>
 
 <Topbar forcePinned={true} />
-<h1 class="font-m-plus text-5xl font-bold text-[#ececec]">
-	{data.project.title}
-</h1>
-<img src={data.project.image} alt={data.project.title} class="" />
-<div class="min-w-full flex items-center justify-center p-3">
+<div class="min-w-full flex flex-col items-center justify-center p-3 pb-5">
+	<h1 class="font-m-plus text-5xl font-bold text-[#ececec] mb-7">
+		{data.project.title}
+	</h1>
 	{#if readme}
 		<article
 			class="prose prose-lg md:prose-xl
@@ -42,6 +41,6 @@
 			{@html readme}
 		</article>
 	{:else}
-		<h1>Balls</h1>
+		<h1>Loading</h1>
 	{/if}
 </div>

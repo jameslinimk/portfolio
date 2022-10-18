@@ -12,13 +12,17 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"dependencies": {
-		"marked": "^4.1.1"
+		"@threlte/core": "^4.3.2",
+		"@threlte/extras": "^4.3.0",
+		"marked": "^4.1.1",
+		"three": "^0.145.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.5.7",
 		"@types/marked": "^4.0.7",
+		"@types/three": "^0.144.0",
 		"autoprefixer": "^10.4.12",
 		"postcss": "^8.4.17",
 		"prettier": "^2.6.2",
