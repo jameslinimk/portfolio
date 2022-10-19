@@ -4,6 +4,7 @@
 	import Topbar from "$lib/components/topbar.svelte"
 </script>
 
+<Space />
 <Topbar />
 
 <p class="font-m-plus text-xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-48 mt-2">
@@ -18,9 +19,5 @@
 	et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
 	ipsum dolor sit amet.
 </p>
-
-<div class="w-48 h-48">
-	<Space />
-</div>
 
 <Projects />
