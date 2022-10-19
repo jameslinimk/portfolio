@@ -16,7 +16,9 @@ function newCmd() {
 }
 
 cd "$(dirname "$0")" || exit
+cp ./nginx.conf /usr/local/etc/nginx/nginx.conf
 cd ../
 npm run build
-newCmd caffeinate npm run serve
+newCmd cd "$(dirname "$0")" && caffeinate npm run serve
+nginx -s quit
 nginx
