@@ -31,18 +31,27 @@
 	let pinnedDiv: HTMLDivElement
 	let pinned = forcePinned
 
+	let lastChange = 0
+
 	onMount(() => {
 		if (forcePinned) return
 
-		const observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
-			threshold: [1]
-		})
+		const observer = new IntersectionObserver(
+			([e]) => {
+				if (performance.now() - lastChange < 50) return
+				pinned = e.intersectionRatio < 1
+				lastChange = performance.now()
+			},
+			{
+				threshold: [1]
+			}
+		)
 		observer.observe(pinnedDiv)
 	})
 </script>
 
 <!-- Div to detect if pinned -->
-<div class="min-w-full -top-[0.01px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
+<div class="min-w-full -top-[1px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
 
 <div
 	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all"

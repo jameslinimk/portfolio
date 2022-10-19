@@ -2,22 +2,49 @@
 	import Projects from "$lib/components/projects.svelte"
 	import Space from "$lib/components/space.svelte"
 	import Topbar from "$lib/components/topbar.svelte"
+	import { MetaTags } from "svelte-meta-tags"
+
+	const languages: [language: string, image: string, url: string][] = [
+		["HTML/CSS", "html", "https://developer.mozilla.org/en-US/docs/Web/HTML"],
+		["Typescript", "typescript", "https://www.typescriptlang.org/"],
+		["Rust", "rust", "https://www.rust-lang.org/"],
+		["Kotlin", "kotlin", "https://kotlinlang.org/"],
+		["Svelte", "svelte", "https://kit.svelte.dev/"],
+		["Go", "go", "https://go.dev/"]
+	]
 </script>
+
+<MetaTags
+	title="James Lin"
+	description="14y/o coder, programmer, and high schooler. See my github projects and about me"
+	openGraph={{
+		title: "James Lin's portfolio",
+		description: "14y/o coder, programmer, and high schooler. See my github projects and about me"
+	}}
+/>
 
 <Space />
 <Topbar />
 
-<p class="font-m-plus text-xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-48 mt-2">
-	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-	labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-	dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-	amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-	invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-	justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-	dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-	tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-	et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-	ipsum dolor sit amet.
-</p>
+<div class="font-m-plus text-lg md:text-xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-48 mt-2 text-center">
+	<p class="text-2xl md:text-3xl">Hello!</p>
+	<p class="mb-6">
+		My name is James and I'm in 9th grade. I love programming, web development, and playing and
+		making games
+	</p>
+	<p>I know many tools and languages, but I love</p>
+	<p class="mb-6">
+		{#each languages as lang, i}
+			<a href={lang[2]} class="inline-flex justify-center items-center mr-1 gap-1" target="_blank">
+				<img src="/images/{lang[1]}.svg" alt={lang[0]} class="w-6 inline" />
+				{lang[0]}{i === languages.length - 1 ? "" : i === languages.length - 2 ? ", and" : ","}
+			</a>
+		{/each}
+	</p>
+	<p>
+		I started coding when I was in 3rd grade with scratch, and my first language was Javascript,
+		using NodeJS and Discord.js to make a discord bot
+	</p>
+</div>
 
 <Projects />

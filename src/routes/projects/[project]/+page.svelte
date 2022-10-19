@@ -3,6 +3,7 @@
 	import { github } from "$lib/config.js"
 	import { marked } from "marked"
 	import { onMount } from "svelte"
+	import { MetaTags } from "svelte-meta-tags"
 	import type { PageData } from "./$types.js"
 
 	export let data: PageData
@@ -16,6 +17,21 @@
 		readme = marked.parse(text)
 	})
 </script>
+
+<MetaTags
+	title={data.project.title}
+	titleTemplate="%s | James Lin"
+	description={data.project.description}
+	openGraph={{
+		title: `${data.project.title} | James Lin`,
+		description: data.project.description,
+		images: [
+			{
+				url: data.project.image
+			}
+		]
+	}}
+/>
 
 <Topbar forcePinned={true} />
 <div class="min-w-full flex flex-col items-center justify-center p-3 pb-5">

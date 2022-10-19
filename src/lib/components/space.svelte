@@ -32,10 +32,10 @@
 	})
 </script>
 
-<div class="fixed top-0 left-0 w-full h-full pointer-events-none">
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none max-w-full max-h-full">
 	<Canvas bind:ctx>
 		<PerspectiveCamera>
-			<OrbitControls enableZoom={false} enableDamping autoRotate={false} enableRotate={false} />
+			<OrbitControls enableDamping autoRotate={false} enableRotate={false} />
 		</PerspectiveCamera>
 	</Canvas>
 </div>

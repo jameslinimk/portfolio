@@ -1,6 +1,9 @@
 <script lang="ts">
 	import Topbar from "$lib/components/topbar.svelte"
+	import { MetaTags } from "svelte-meta-tags"
 </script>
+
+<MetaTags noindex title="Error 404" titleTemplate="%s | James Lin" />
 
 <Topbar forcePinned={true} />
 

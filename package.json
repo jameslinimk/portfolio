@@ -16,6 +16,7 @@
 		"@threlte/core": "^4.3.2",
 		"@threlte/extras": "^4.3.0",
 		"marked": "^4.1.1",
+		"svelte-meta-tags": "^2.6.3",
 		"three": "^0.145.0"
 	},
 	"devDependencies": {

@@ -3,8 +3,8 @@
 	import { projects } from "$lib/projects"
 </script>
 
-<div class="flex flex-col justify-center items-center overflow-hidden mb-3">
-	<h1 class="font-m-plus font-bold text-3xl text-[#ebebeb] my-5">My Projects</h1>
+<div class="flex flex-col justify-center items-center overflow-hidden">
+	<h1 class="font-m-plus font-bold text-4xl text-[#ebebeb] my-5">My Projects</h1>
 	<div class="text-center">
 		{#each projects as project}
 			<a
