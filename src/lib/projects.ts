@@ -4,6 +4,7 @@ export interface Project {
 	description: string
 	image: string
 	github: string
+	wip: boolean
 }
 
 export const projects: Project[] = [
@@ -13,7 +14,8 @@ export const projects: Project[] = [
 		description:
 			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
 		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy"
+		github: "the-blue-guy",
+		wip: true
 	},
 	{
 		id: "chess-engine-2 2",
@@ -21,7 +23,8 @@ export const projects: Project[] = [
 		description:
 			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
 		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy"
+		github: "the-blue-guy",
+		wip: false
 	},
 	{
 		id: "chess-engine-3",
@@ -29,7 +32,8 @@ export const projects: Project[] = [
 		description:
 			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
 		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy"
+		github: "the-blue-guy",
+		wip: false
 	},
 	{
 		id: "chess-engine-4",
@@ -37,7 +41,8 @@ export const projects: Project[] = [
 		description:
 			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
 		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy"
+		github: "the-blue-guy",
+		wip: false
 	}
 ]
 

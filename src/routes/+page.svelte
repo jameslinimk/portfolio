@@ -26,7 +26,9 @@
 <Space />
 <Topbar />
 
-<div class="font-m-plus text-lg md:text-xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-48 mt-2 text-center">
+<div
+	class="font-m-plus text-lg md:text-xl lg:text-2xl text-[#ebebeb] mx-5 sm:mx-24 md:mx-48 mt-2 text-center"
+>
 	<p class="text-2xl md:text-3xl">Hello!</p>
 	<p class="mb-6">
 		My name is James and I'm in 9th grade. I love programming, web development, and playing and
@@ -35,7 +37,7 @@
 	<p>I know many tools and languages, but I love</p>
 	<p class="mb-6">
 		{#each languages as lang, i}
-			<a href={lang[2]} class="inline-flex justify-center items-center mr-1 gap-1" target="_blank">
+			<a href={lang[2]} class="inline-flex justify-center items-center mr-2 gap-1" target="_blank">
 				<img src="/images/{lang[1]}.svg" alt={lang[0]} class="w-6 inline" />
 				{lang[0]}{i === languages.length - 1 ? "" : i === languages.length - 2 ? ", and" : ","}
 			</a>

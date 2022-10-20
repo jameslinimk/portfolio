@@ -8,6 +8,7 @@
 		type LookAt,
 		type ThrelteContext
 	} from "@threlte/core"
+	import { onMount } from "svelte"
 	import { spring } from "svelte/motion"
 	import type { Writable } from "svelte/store"
 	import type { Camera } from "three"
@@ -21,10 +22,15 @@
 		Vector3
 	} from "three"
 
-	const scale = spring(1)
+	export let scaleBase: number
+	$: {
+		$scale = scaleBase
+	}
+
+	const scale = spring(scaleBase)
 
 	let ctx: ThrelteContext
-	let container: HTMLDivElement
+	let container: HTMLAnchorElement
 	let camera: Writable<Camera>
 	let lookAt: LookAt
 
@@ -51,21 +57,28 @@
 		lookAt = intersectPoint
 	}
 
-	const loader = new TextureLoader()
-	loader.setPath("images/cube/")
-	const loadImage = (path: string) => {
-		const mat = loader.load(path)
-		mat.encoding = sRGBEncoding
-		return new MeshLambertMaterial({ map: mat })
-	}
-	const materials = ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"].map((path) =>
-		loadImage(path)
-	)
+	let materials: MeshLambertMaterial[] = []
+	onMount(() => {
+		const loader = new TextureLoader()
+		loader.setPath("images/cube/")
+		const loadImage = (path: string) => {
+			const mat = loader.load(path)
+			mat.encoding = sRGBEncoding
+			return new MeshLambertMaterial({ map: mat })
+		}
+		materials = ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"].map((path) =>
+			loadImage(path)
+		)
+	})
 </script>
 
 <svelte:window on:mousemove={onPointerMove} />
 
-<div bind:this={container} class="fixed bottom-2 left-2 w-24 h-24">
+<a
+	href="/"
+	bind:this={container}
+	class="fixed top-0 left-0 z-50 -translate-x-0.5 -translate-y-0.5 w-12 h-12"
+>
 	<Canvas bind:ctx>
 		<PerspectiveCamera position={{ x: 0, y: 0, z: 3 }} lookAt={{ x: 0, y: 0, z: 0 }} />
 
@@ -79,8 +92,8 @@
 			position={{ x: 0, y: 0, z: 0 }}
 			geometry={new BoxGeometry(0.8, 0.8, 0.8)}
 			{lookAt}
-			on:pointerenter={() => ($scale = 1.5)}
-			on:pointerleave={() => ($scale = 1)}
+			on:pointerenter={() => ($scale = scaleBase * 1.25)}
+			on:pointerleave={() => ($scale = scaleBase)}
 		/>
 	</Canvas>
-</div>
+</a>

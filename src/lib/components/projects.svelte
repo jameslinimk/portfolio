@@ -11,6 +11,14 @@
 				href="/projects/{project.id}"
 				class="bg-[#2a2b2e] w-fit max-w-full sm:max-w-xs rounded-md shadow-black shadow-sm relative overflow-hidden hover:scale-110 transition-all cursor-pointer group hover:z-20 clear-left inline-block mx-10 sm:mx-3 mb-4"
 			>
+				{#if project.wip}
+					<div
+						class="absolute top-1.5 left-1.5 bg-red-600 opacity-75 z-10 rounded-md shadow-black shadow-sm text-[#ececec] font-m-plus font-bold px-1"
+					>
+						WIP
+					</div>
+				{/if}
+
 				<img
 					src={project.image}
 					alt={project.title}
