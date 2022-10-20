@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { discord, github, titles } from "$lib/config.js"
-	import { overflowing } from "$lib/util.js"
 	import { onMount } from "svelte"
 	import Looker from "./looker.svelte"
 
@@ -30,37 +29,22 @@
 		}, 5000)
 	})
 
-	let pinnedDiv: HTMLDivElement
 	let pinned = forcePinned
-	let lastChange = 0
 
-	onMount(() => {
+	let lastTop = 0
+	const onWheel = (event: WheelEvent) => {
 		if (forcePinned) return
-
-		const observer = new IntersectionObserver(
-			([e]) => {
-				if (performance.now() - lastChange < 50) return
-				pinned = e.intersectionRatio < 1
-				lastChange = performance.now()
-			},
-			{
-				threshold: [1]
-			}
-		)
-		observer.observe(pinnedDiv)
-	})
-
-	onMount(() => {
-		setInterval(() => {
-			if (!overflowing() && pinned) {
-				pinned = false
-			}
-		}, 50)
-	})
+		if (event.deltaY < 0) {
+			if (lastTop === 0 && document.documentElement.scrollTop === 0) pinned = false
+		} else {
+			pinned = true
+		}
+		lastTop = document.documentElement.scrollTop
+	}
 </script>
 
 <!-- Div to detect if pinned -->
-<div class="min-w-full -top-[1px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
+<svelte:window on:wheel={onWheel} />
 <Looker scaleBase={pinned ? 1 : 2} />
 
 <div

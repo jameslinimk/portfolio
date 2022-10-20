@@ -61,14 +61,17 @@
 	onMount(() => {
 		const loader = new TextureLoader()
 		loader.setPath("images/cube/")
-		const loadImage = (path: string) => {
-			const mat = loader.load(path)
-			mat.encoding = sRGBEncoding
-			return new MeshLambertMaterial({ map: mat })
-		}
-		materials = ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"].map((path) =>
-			loadImage(path)
-		)
+		const mat = loader.load("face.png")
+		mat.encoding = sRGBEncoding
+		const img = new MeshLambertMaterial({ map: mat })
+		materials = [img, img, img, img, img, img]
+	})
+
+	onMount(() => {
+		document.querySelectorAll("a").forEach((element) => {
+			element.addEventListener("pointerenter", () => ($scale = scaleBase * 1.2))
+			element.addEventListener("pointerleave", () => ($scale = scaleBase))
+		})
 	})
 </script>
 
