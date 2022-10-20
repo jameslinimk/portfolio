@@ -55,12 +55,12 @@
 
 <!-- Div to detect if pinned -->
 <div class="min-w-full -top-[1px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
+<Looker />
 
 <div
 	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all"
 	class:topbar-pin={pinned}
 >
-	<Looker />
 	<a
 		href="/"
 		class="font-m-plus text-6xl text-[#ebebeb] font-bold transition-all text-center"
