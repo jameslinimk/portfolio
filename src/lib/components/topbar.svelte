@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { discord, github, titles } from "$lib/config.js"
+	import { overflowing } from "$lib/util.js"
 	import { onMount } from "svelte"
+	import Looker from "./looker.svelte"
 
 	export let forcePinned = false
 
@@ -30,7 +32,6 @@
 
 	let pinnedDiv: HTMLDivElement
 	let pinned = forcePinned
-
 	let lastChange = 0
 
 	onMount(() => {
@@ -50,6 +51,8 @@
 	})
 </script>
 
+<svelte:window on:resize={() => (pinned = pinned && !overflowing(document.body))} />
+
 <!-- Div to detect if pinned -->
 <div class="min-w-full -top-[1px] left-0 z-40 sticky bg-red-500" bind:this={pinnedDiv} />
 
@@ -57,6 +60,7 @@
 	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all"
 	class:topbar-pin={pinned}
 >
+	<Looker />
 	<a
 		href="/"
 		class="font-m-plus text-6xl text-[#ebebeb] font-bold transition-all text-center"
