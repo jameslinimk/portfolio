@@ -67,11 +67,15 @@
 		materials = [img, img, img, img, img, img]
 	})
 
+	let mousePointer = false
+	$: $scale = mousePointer ? scaleBase * 1.1 : scaleBase
 	onMount(() => {
 		document.querySelectorAll("a").forEach((element) => {
-			element.addEventListener("pointerenter", () => ($scale = scaleBase * 1.2))
-			element.addEventListener("pointerleave", () => ($scale = scaleBase))
+			element.onpointerenter = () => (mousePointer = true)
+			element.onpointerleave = () => (mousePointer = false)
 		})
+		container.onpointerenter = () => {}
+		container.onpointerleave = () => {}
 	})
 </script>
 
