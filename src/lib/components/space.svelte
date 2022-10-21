@@ -15,41 +15,91 @@
 		sRGBEncoding,
 		TextureLoader
 	} from "three"
+	import { clamp, randFloat, randInt } from "three/src/math/MathUtils.js"
 
 	let ctx: ThrelteContext
 
+	interface Planet {
+		mesh: Mesh<SphereGeometry, MeshPhongMaterial>
+		rotateY: number
+		rotateX: number
+		speed: number
+		radius: number
+	}
 	/* --------------------------------- Planets -------------------------------- */
 	onMount(() => {
-		const planets: Mesh<SphereGeometry, MeshBasicMaterial>[] = []
+		const planets: Planet[] = []
 
+		/* ----------------------------- Texture loader ----------------------------- */
 		const loader = new TextureLoader()
 		loader.setPath("images/planets/")
-		const loadPlanet = (image: string) => {
-			const map = loader.load(image)
+		const loadPlanet = (config: {
+			rotateY: number
+			rotateX: number
+			speed: number
+			radius: number
+			image: string
+		}) => {
+			const map = loader.load(config.image)
 			map.encoding = sRGBEncoding
-			const geometry = new SphereGeometry(50, 12, 12)
+			const geometry = new SphereGeometry(config.radius, 20, 20)
 			const material = new MeshPhongMaterial({ map })
+
 			const planet = new Mesh(geometry, material)
 
-			planet.castShadow = false
-
-			planet.position.x = 0
-			planet.position.y = 0
-			planet.position.z = -200
+			planet.position.x = Math.random() * 5000 - 500
+			planet.position.y = Math.random() * 5000 - 500
+			planet.position.z = -10000
 
 			ctx.scene.add(planet)
-			planets.push(planet)
+			planets.push({
+				mesh: planet,
+				...config
+			})
 		}
 
-		loadPlanet("earth.jpg")
+		/* -------------------------- Stagger planet spawn -------------------------- */
+		;[
+			{
+				image: "earth.jpg",
+				rotateX: 0.01,
+				rotateY: 0.01,
+				speed: 10,
+				radius: 50
+			},
+			{
+				image: "mars.jpg",
+				rotateX: 0.01,
+				rotateY: 0.05,
+				speed: 15,
+				radius: 25
+			},
+			{
+				image: "jupiter.jpg",
+				rotateX: 0.005,
+				rotateY: 0.005,
+				speed: 7,
+				radius: 75
+			}
+		].forEach((config) => {
+			setTimeout(() => {
+				loadPlanet(config)
+			}, randInt(0, 5000))
+		})
 
-		// TODO finish this, rotation isnt working
-		// TODO add more planets, https://www.solarsystemscope.com/textures/
+		/* ---------------------------- Animating planets --------------------------- */
 		const animate = () => {
-			planets.forEach((planet, i) => {
-				planet.position.z += i / 20
-				planet.rotateX(i / 20)
-				if (planet.position.z > 1000) planet.position.z -= 2000
+			planets.forEach((planet) => {
+				planet.mesh.position.z += planet.speed
+				planet.mesh.rotation.y += planet.rotateY
+				planet.mesh.rotation.x += planet.rotateX
+				if (planet.mesh.position.z > 5000) {
+					planet.mesh.position.z -= 10000
+					planet.mesh.position.x = Math.random() * 1000 - 500
+					planet.mesh.position.y = Math.random() * 1000 - 500
+					planet.speed = clamp(planet.speed + randFloat(-5, 5), 2, 25)
+					console.log({ speed: planet.speed })
+				}
 			})
 			requestAnimationFrame(animate)
 		}
@@ -76,7 +126,7 @@
 		const animate = () => {
 			stars.forEach((star, i) => {
 				star.position.z += i / 20
-				if (star.position.z > 1000) star.position.z -= 2000
+				if (star.position.z > 100) star.position.z -= 2000
 			})
 			requestAnimationFrame(animate)
 		}
@@ -86,7 +136,7 @@
 
 <div class="fixed top-0 left-0 w-full h-full pointer-events-none max-w-full max-h-full -z-40">
 	<Canvas bind:ctx>
-		<PerspectiveCamera>
+		<PerspectiveCamera far={10000}>
 			<OrbitControls enableDamping autoRotate={false} enableRotate={false} />
 		</PerspectiveCamera>
 
