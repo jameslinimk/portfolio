@@ -37,10 +37,10 @@
 
 	/* ---------------------------- Loading materials --------------------------- */
 	let materials: MeshLambertMaterial[] = []
-	onMount(() => {
+	onMount(async () => {
 		const loader = new TextureLoader()
 		loader.setPath("images/cube/")
-		const map = loader.load("face.png")
+		const map = await loader.loadAsync("face.png")
 		map.encoding = sRGBEncoding
 		const img = new MeshLambertMaterial({ map })
 		materials = [img, img, img, img, img, img]

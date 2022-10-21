@@ -7,6 +7,7 @@
 		type ThrelteContext
 	} from "@threlte/core"
 	import { onMount } from "svelte"
+	import type { Object3D } from "three"
 	import {
 		DoubleSide,
 		Mesh,
@@ -28,16 +29,15 @@
 		rotateX: number
 		speed: number
 		radius: number
-		extras: Mesh[]
 	}
 	/* --------------------------------- Planets -------------------------------- */
-	onMount(() => {
+	onMount(async () => {
 		const planets: Planet[] = []
 
 		/* ----------------------------- Texture loader ----------------------------- */
 		const loader = new TextureLoader()
 		loader.setPath("images/planets/")
-		const loadPlanet = (
+		const loadPlanet = async (
 			config: {
 				rotateY: number
 				rotateX: number
@@ -48,17 +48,18 @@
 			},
 			delay: number
 		) => {
-			const map = loader.load(config.image)
+			const map = await loader.loadAsync(config.image)
 			map.encoding = sRGBEncoding
 
-			const extras: Mesh[] = []
+			const extras: Object3D[] = []
 
-			const texture = config.ring ? loader.load(config.ring) : null
+			const texture = config.ring ? await loader.loadAsync(config.ring) : null
 			if (texture) {
 				console.log("Loading ring", config.ring)
 
 				texture.encoding = sRGBEncoding
-				const geometry = new RingGeometry(1000, 1, 20)
+				const geometry = new RingGeometry(config.radius * 2 + 10, 1, 20)
+				console.log(config.radius * 2 + 15, config.radius * 3 + 15)
 				const pos = geometry.attributes.position
 				const v3 = new Vector3()
 				for (let i = 0; i < pos.count; i++) {
@@ -85,32 +86,26 @@
 
 			const planet = new Mesh(geometry, material)
 
-			const x = Math.random() * 5000 - 500
-			const y = Math.random() * 5000 - 500
-			;[...extras, planet].forEach((mesh) => {
-				mesh.position.x = x
-				mesh.position.y = y
-				mesh.position.z = -10000
-				mesh.visible = false
+			planet.position.x = Math.random() * 5000 - 500
+			planet.position.y = Math.random() * 5000 - 500
+			planet.position.z = -10000
+			planet.visible = false
 
-				ctx.scene.add(mesh)
-			})
+			extras.forEach((mesh) => planet.add(mesh))
+
+			ctx.scene.add(planet)
 
 			setTimeout(() => {
-				;[...extras, planet].forEach((mesh) => {
-					mesh.visible = true
-				})
-
+				planet.visible = true
 				planets.push({
 					mesh: planet,
-					extras,
 					...config
 				})
 			}, delay)
 		}
 
 		/* -------------------------- Stagger planet spawn -------------------------- */
-		;[
+		const planetConfigs = [
 			{
 				image: "earth.jpg",
 				rotateX: 0.01,
@@ -144,27 +139,41 @@
 				ring: "saturn_rings.png",
 				rotateX: 0.01,
 				rotateY: 0.01,
-				speed: 0,
-				radius: 500
+				speed: 6,
+				radius: 125
+			},
+			{
+				image: "sun.jpg",
+				rotateX: 0.005,
+				rotateY: 0.005,
+				speed: 5,
+				radius: 200
+			},
+			{
+				image: "neptune.jpg",
+				rotateX: 0.01,
+				rotateY: 0.01,
+				speed: 15,
+				radius: 15
 			}
-		].forEach((config) => {
+		]
+
+		planetConfigs.forEach((config) => {
 			loadPlanet(config, randInt(0, 5000))
 		})
 
 		/* ---------------------------- Animating planets --------------------------- */
 		const animate = () => {
 			planets.forEach((planet) => {
-				;[...planet.extras, planet.mesh].forEach((mesh) => {
-					mesh.position.z += planet.speed
-					mesh.rotation.y += planet.rotateY
-					mesh.rotation.x += planet.rotateX
-					if (mesh.position.z > 5000) {
-						mesh.position.z -= 10000
-						mesh.position.x = Math.random() * 1000 - 500
-						mesh.position.y = Math.random() * 1000 - 500
-						planet.speed = clamp(planet.speed + randFloat(-5, 5), 2, 25)
-					}
-				})
+				planet.mesh.position.z += planet.speed
+				planet.mesh.rotation.y += planet.rotateY
+				planet.mesh.rotation.x += planet.rotateX
+				if (planet.mesh.position.z > 5000) {
+					planet.mesh.position.z -= 15000
+					planet.mesh.position.x = Math.random() * 1000 - 500
+					planet.mesh.position.y = Math.random() * 1000 - 500
+					planet.speed = clamp(planet.speed + randFloat(-5, 5), 2, 25)
+				}
 			})
 			requestAnimationFrame(animate)
 		}
@@ -205,6 +214,6 @@
 			<OrbitControls enableDamping autoRotate={false} enableRotate={false} />
 		</PerspectiveCamera>
 
-		<DirectionalLight shadow position={{ x: 3, y: 10, z: 10 }} />
+		<DirectionalLight shadow position={{ x: 3, y: 3, z: 10 }} />
 	</Canvas>
 </div>
