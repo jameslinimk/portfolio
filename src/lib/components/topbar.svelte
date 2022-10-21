@@ -35,7 +35,7 @@
 	const onWheel = (event: WheelEvent) => {
 		if (forcePinned) return
 		if (event.deltaY < 0) {
-			if (lastTop === 0 && document.documentElement.scrollTop === 0) pinned = false
+			if (document.documentElement.scrollTop === 0) pinned = false
 		} else {
 			pinned = true
 		}

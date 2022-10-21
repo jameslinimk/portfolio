@@ -11,15 +11,16 @@
 	import { onMount } from "svelte"
 	import { spring } from "svelte/motion"
 	import type { Writable } from "svelte/store"
-	import type { Camera } from "three"
 	import {
 		BoxGeometry,
+		Color,
 		MeshLambertMaterial,
 		Plane,
 		Raycaster,
 		sRGBEncoding,
 		TextureLoader,
-		Vector3
+		Vector3,
+		type Camera
 	} from "three"
 
 	export let scaleBase: number
@@ -27,13 +28,25 @@
 		$scale = scaleBase
 	}
 
+	/* ----------------------------- Vars / bindings ---------------------------- */
 	const scale = spring(scaleBase)
-
 	let ctx: ThrelteContext
 	let container: HTMLAnchorElement
 	let camera: Writable<Camera>
 	let lookAt: LookAt
 
+	/* ---------------------------- Loading materials --------------------------- */
+	let materials: MeshLambertMaterial[] = []
+	onMount(() => {
+		const loader = new TextureLoader()
+		loader.setPath("images/cube/")
+		const map = loader.load("face.png")
+		map.encoding = sRGBEncoding
+		const img = new MeshLambertMaterial({ map })
+		materials = [img, img, img, img, img, img]
+	})
+
+	/* ---------------------------- Looking at mouse ---------------------------- */
 	const onPointerMove = (event: MouseEvent) => {
 		const rect = container.getBoundingClientRect()
 		const centerX = (rect.left + rect.right) / 2
@@ -57,25 +70,31 @@
 		lookAt = intersectPoint
 	}
 
-	let materials: MeshLambertMaterial[] = []
-	onMount(() => {
-		const loader = new TextureLoader()
-		loader.setPath("images/cube/")
-		const mat = loader.load("face.png")
-		mat.encoding = sRGBEncoding
-		const img = new MeshLambertMaterial({ map: mat })
-		materials = [img, img, img, img, img, img]
-	})
+	/* ------------------------------ Anchor hover ------------------------------ */
+	let fadeToWhite = spring(0)
+	const fadeMultiplier = 0.05
+	const currentColor = (fade: number) => {
+		fade *= fadeMultiplier
+		const color = new Color(0xa8a8a8)
+		const vector = new Color((255 - color.r) * fade, (255 - color.g) * fade, (255 - color.b) * fade)
+		return new Color(color.r + vector.r, color.g + vector.g, color.b + vector.b)
+	}
+	$: {
+		for (let i = 0; i < materials.length; i++) {
+			materials[i].color = currentColor($fadeToWhite)
+		}
+	}
 
 	let mousePointer = false
-	$: $scale = mousePointer ? scaleBase * 1.1 : scaleBase
+	$: {
+		$scale = mousePointer ? scaleBase * 1.1 : scaleBase
+		$fadeToWhite = mousePointer ? 1 : 0
+	}
 	onMount(() => {
 		document.querySelectorAll("a").forEach((element) => {
 			element.onpointerenter = () => (mousePointer = true)
 			element.onpointerleave = () => (mousePointer = false)
 		})
-		container.onpointerenter = () => {}
-		container.onpointerleave = () => {}
 	})
 </script>
 
