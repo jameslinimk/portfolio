@@ -14,17 +14,17 @@ cd "$(dirname "$0")" || exit
 cd ../
 
 # Update git
-git pull >/dev/null
+git pull
 
 # Server
-pnpm i >/dev/null
-pnpm run build >/dev/null
-sudo -u $USERNAME tmux kill-session -t $TMUX_NAME >/dev/null
+pnpm i
+pnpm run build
+sudo -u $USERNAME tmux kill-session -t $TMUX_NAME
 sudo -u $USERNAME tmux new -d -s $TMUX_NAME 'caffeinate pnpm run serve'
 
 # Nginx
-cp ./nginx/nginx.conf /usr/local/etc/nginx/nginx.conf >/dev/null
-nginx -s quit >/dev/null
+cp ./nginx/nginx.conf /usr/local/etc/nginx/nginx.conf
+nginx -s quit
 nginx
 
 echo "Done!, updated git, laucnhed nginx and node server"

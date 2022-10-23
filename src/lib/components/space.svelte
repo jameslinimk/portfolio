@@ -30,6 +30,69 @@
 		speed: number
 		radius: number
 	}
+
+	interface PlanetConfig {
+		rotateY: number
+		rotateX: number
+		speed: number
+		radius: number
+		image: string
+		ring?: string
+	}
+
+	const planetConfigs: PlanetConfig[] = [
+		{
+			image: "earth.jpg",
+			rotateX: 0.01,
+			rotateY: 0.01,
+			speed: 10,
+			radius: 50
+		},
+		{
+			image: "mars.jpg",
+			rotateX: 0.01,
+			rotateY: 0.015,
+			speed: 15,
+			radius: 25
+		},
+		{
+			image: "jupiter.jpg",
+			rotateX: 0.005,
+			rotateY: 0.005,
+			speed: 7,
+			radius: 100
+		},
+		{
+			image: "venus.jpg",
+			rotateX: 0.017,
+			rotateY: 0.017,
+			speed: 18,
+			radius: 20
+		},
+		{
+			image: "saturn.jpg",
+			ring: "saturn_rings.png",
+			rotateX: 0.01,
+			rotateY: 0.01,
+			speed: 6,
+			radius: 75
+		},
+		{
+			image: "sun.jpg",
+			rotateX: 0.005,
+			rotateY: 0.005,
+			speed: 5,
+			radius: 150
+		},
+		{
+			image: "neptune.jpg",
+			rotateX: 0.01,
+			rotateY: 0.01,
+			speed: 15,
+			radius: 12
+		}
+	]
+
 	/* --------------------------------- Planets -------------------------------- */
 	onMount(async () => {
 		const planets: Planet[] = []
@@ -37,29 +100,16 @@
 		/* ----------------------------- Texture loader ----------------------------- */
 		const loader = new TextureLoader()
 		loader.setPath("images/planets/")
-		const loadPlanet = async (
-			config: {
-				rotateY: number
-				rotateX: number
-				speed: number
-				radius: number
-				image: string
-				ring?: string
-			},
-			delay: number
-		) => {
-			const map = await loader.loadAsync(config.image)
-			map.encoding = sRGBEncoding
-
+		const loadPlanet = async (config: PlanetConfig, delay: number) => {
 			const extras: Object3D[] = []
 
+			/* ---------------------------- Ring (for saturn) --------------------------- */
 			const texture = config.ring ? await loader.loadAsync(config.ring) : null
 			if (texture) {
-				console.log("Loading ring", config.ring)
-
 				texture.encoding = sRGBEncoding
 				const geometry = new RingGeometry(config.radius * 2 + 10, 1, 20)
-				console.log(config.radius * 2 + 15, config.radius * 3 + 15)
+
+				// Make sure image is mapped to ring correctly
 				const pos = geometry.attributes.position
 				const v3 = new Vector3()
 				for (let i = 0; i < pos.count; i++) {
@@ -78,22 +128,25 @@
 				extras.push(mesh)
 			}
 
+			/* --------------------------------- Planet --------------------------------- */
+			const map = await loader.loadAsync(config.image)
+			map.encoding = sRGBEncoding
+
 			const geometry = new SphereGeometry(config.radius, 20, 20)
 			const material = new MeshPhongMaterial({
 				map,
 				shininess: 0.1
 			})
-
 			const planet = new Mesh(geometry, material)
 
+			/* -------------------------------- Position -------------------------------- */
 			planet.position.x = randInt(-2500, 2500)
 			planet.position.y = randInt(-2500, 2500)
 			planet.position.z = -10000
-
 			extras.forEach((mesh) => planet.add(mesh))
-
 			ctx.scene.add(planet)
 
+			/* ------------------------------- Staggering ------------------------------- */
 			setTimeout(() => {
 				planets.push({
 					mesh: planet,
@@ -103,59 +156,6 @@
 		}
 
 		/* -------------------------- Stagger planet spawn -------------------------- */
-		const planetConfigs = [
-			{
-				image: "earth.jpg",
-				rotateX: 0.01,
-				rotateY: 0.01,
-				speed: 10,
-				radius: 50
-			},
-			{
-				image: "mars.jpg",
-				rotateX: 0.01,
-				rotateY: 0.015,
-				speed: 15,
-				radius: 25
-			},
-			{
-				image: "jupiter.jpg",
-				rotateX: 0.005,
-				rotateY: 0.005,
-				speed: 7,
-				radius: 100
-			},
-			{
-				image: "venus.jpg",
-				rotateX: 0.017,
-				rotateY: 0.017,
-				speed: 18,
-				radius: 20
-			},
-			{
-				image: "saturn.jpg",
-				ring: "saturn_rings.png",
-				rotateX: 0.01,
-				rotateY: 0.01,
-				speed: 6,
-				radius: 75
-			},
-			{
-				image: "sun.jpg",
-				rotateX: 0.005,
-				rotateY: 0.005,
-				speed: 5,
-				radius: 150
-			},
-			{
-				image: "neptune.jpg",
-				rotateX: 0.01,
-				rotateY: 0.01,
-				speed: 15,
-				radius: 12
-			}
-		]
-
 		planetConfigs.forEach((config) => {
 			loadPlanet(config, randInt(0, 5000))
 		})
@@ -166,6 +166,8 @@
 				planet.mesh.position.z += planet.speed
 				planet.mesh.rotation.y += planet.rotateY
 				planet.mesh.rotation.x += planet.rotateX
+
+				// Reset planet
 				if (planet.mesh.position.z > 5000) {
 					planet.mesh.position.z -= 15000
 					planet.mesh.position.x = randInt(-2500, 2500)

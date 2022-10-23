@@ -31,29 +31,17 @@
 
 	let pinned = forcePinned
 
-	let lastTop = 0
-	const onWheel = (event: WheelEvent) => {
-		if (forcePinned) return
-		if (event.deltaY < 0) {
-			if (document.documentElement.scrollTop === 0) pinned = false
-		} else {
-			pinned = true
-		}
-		lastTop = document.documentElement.scrollTop
+	const onScroll = () => {
+		setTimeout(() => {
+			pinned = document.documentElement.scrollTop !== 0
+		}, 20)
 	}
-
-	// TODO pretty bad band-aid patch, to fix mobile, should change later
-	onMount(() => {
-		setInterval(() => {
-			if (document.documentElement.scrollTop === 0) pinned = false
-		}, 5)
-	})
 
 	let topbar: HTMLDivElement
 </script>
 
 <!-- Div to detect if pinned -->
-<svelte:window on:wheel={onWheel} />
+<svelte:window on:scroll={onScroll} />
 <Looker {pinned} {topbar} />
 
 <div

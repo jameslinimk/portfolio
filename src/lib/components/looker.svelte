@@ -48,7 +48,7 @@
 	})
 
 	/* ---------------------------- Looking at mouse ---------------------------- */
-	const onPointerMove = (event: MouseEvent) => {
+	const onPointerMove = (x: number, y: number) => {
 		const rect = container.getBoundingClientRect()
 		const centerX = (rect.left + rect.right) / 2
 		const centerY = (rect.top + rect.bottom) / 2
@@ -58,8 +58,8 @@
 
 		const plane = new Plane(new Vector3(0, 0, 1), 0)
 		const mouse = new Vector3(
-			((event.clientX + diffX) / window.innerWidth) * 2 - 1,
-			-((event.clientY + diffY) / window.innerHeight) * 2 + 1
+			((x + diffX) / window.innerWidth) * 2 - 1,
+			-((y + diffY) / window.innerHeight) * 2 + 1
 		)
 		const raycaster = new Raycaster()
 		const intersectPoint = new Vector3()
@@ -111,7 +111,15 @@
 	}
 </script>
 
-<svelte:window on:mousemove={onPointerMove} />
+<svelte:window
+	on:mousemove={(event) => {
+		onPointerMove(event.clientX, event.clientY)
+	}}
+	on:touchstart={(event) => {
+		const touches = event.touches[0]
+		onPointerMove(touches.clientX, touches.clientY)
+	}}
+/>
 
 <a href="/" bind:this={container} class="fixed left-0 z-50 w-12 h-12" style="top: 0px;">
 	<Canvas bind:ctx>
