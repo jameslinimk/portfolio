@@ -41,15 +41,25 @@
 		}
 		lastTop = document.documentElement.scrollTop
 	}
+
+	// TODO pretty bad band-aid patch, to fix mobile, should change later
+	onMount(() => {
+		setInterval(() => {
+			if (document.documentElement.scrollTop === 0) pinned = false
+		}, 5)
+	})
+
+	let topbar: HTMLDivElement
 </script>
 
 <!-- Div to detect if pinned -->
 <svelte:window on:wheel={onWheel} />
-<Looker scaleBase={pinned ? 1 : 2} />
+<Looker {pinned} {topbar} />
 
 <div
-	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all"
+	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all shadow-[#1d1d21] shadow-sm"
 	class:topbar-pin={pinned}
+	bind:this={topbar}
 >
 	<a
 		href="/"

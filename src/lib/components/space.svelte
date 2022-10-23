@@ -86,17 +86,15 @@
 
 			const planet = new Mesh(geometry, material)
 
-			planet.position.x = Math.random() * 5000 - 500
-			planet.position.y = Math.random() * 5000 - 500
+			planet.position.x = randInt(-2500, 2500)
+			planet.position.y = randInt(-2500, 2500)
 			planet.position.z = -10000
-			planet.visible = false
 
 			extras.forEach((mesh) => planet.add(mesh))
 
 			ctx.scene.add(planet)
 
 			setTimeout(() => {
-				planet.visible = true
 				planets.push({
 					mesh: planet,
 					...config
@@ -111,28 +109,28 @@
 				rotateX: 0.01,
 				rotateY: 0.01,
 				speed: 10,
-				radius: 75
+				radius: 50
 			},
 			{
 				image: "mars.jpg",
 				rotateX: 0.01,
 				rotateY: 0.015,
 				speed: 15,
-				radius: 50
+				radius: 25
 			},
 			{
 				image: "jupiter.jpg",
 				rotateX: 0.005,
 				rotateY: 0.005,
 				speed: 7,
-				radius: 150
+				radius: 100
 			},
 			{
 				image: "venus.jpg",
 				rotateX: 0.017,
 				rotateY: 0.017,
 				speed: 18,
-				radius: 30
+				radius: 20
 			},
 			{
 				image: "saturn.jpg",
@@ -140,21 +138,21 @@
 				rotateX: 0.01,
 				rotateY: 0.01,
 				speed: 6,
-				radius: 125
+				radius: 75
 			},
 			{
 				image: "sun.jpg",
 				rotateX: 0.005,
 				rotateY: 0.005,
 				speed: 5,
-				radius: 200
+				radius: 150
 			},
 			{
 				image: "neptune.jpg",
 				rotateX: 0.01,
 				rotateY: 0.01,
 				speed: 15,
-				radius: 15
+				radius: 12
 			}
 		]
 
@@ -170,8 +168,8 @@
 				planet.mesh.rotation.x += planet.rotateX
 				if (planet.mesh.position.z > 5000) {
 					planet.mesh.position.z -= 15000
-					planet.mesh.position.x = Math.random() * 1000 - 500
-					planet.mesh.position.y = Math.random() * 1000 - 500
+					planet.mesh.position.x = randInt(-2500, 2500)
+					planet.mesh.position.y = randInt(-2500, 2500)
 					planet.speed = clamp(planet.speed + randFloat(-5, 5), 2, 25)
 				}
 			})

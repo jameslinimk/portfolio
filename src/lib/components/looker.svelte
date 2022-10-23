@@ -23,10 +23,11 @@
 		type Camera
 	} from "three"
 
-	export let scaleBase: number
-	$: {
-		$scale = scaleBase
-	}
+	export let pinned: boolean
+	export let topbar: HTMLDivElement
+
+	let scaleBase = 1
+	$: scaleBase = pinned ? 1 : 1.75
 
 	/* ----------------------------- Vars / bindings ---------------------------- */
 	const scale = spring(scaleBase)
@@ -72,7 +73,7 @@
 
 	/* ------------------------------ Anchor hover ------------------------------ */
 	let fadeToWhite = spring(0)
-	const fadeMultiplier = 0.05
+	const fadeMultiplier = 0.01
 	const currentColor = (fade: number) => {
 		fade *= fadeMultiplier
 		const color = new Color(0xa8a8a8)
@@ -96,15 +97,23 @@
 			element.onpointerleave = () => (mousePointer = false)
 		})
 	})
+
+	/* ---------------- Center looker on topbar excluding border ---------------- */
+	$: if (topbar && container) {
+		if (pinned) {
+			const topbarStyle = getComputedStyle(topbar)
+			const border = parseInt(topbarStyle.borderBottom.split(" ")[0].slice(0, -2))
+
+			container.style.top = `-${border}px`
+		} else {
+			container.style.top = "0px"
+		}
+	}
 </script>
 
 <svelte:window on:mousemove={onPointerMove} />
 
-<a
-	href="/"
-	bind:this={container}
-	class="fixed top-0 left-0 z-50 -translate-x-0.5 -translate-y-0.5 w-12 h-12"
->
+<a href="/" bind:this={container} class="fixed left-0 z-50 w-12 h-12" style="top: 0px;">
 	<Canvas bind:ctx>
 		<PerspectiveCamera position={{ x: 0, y: 0, z: 3 }} lookAt={{ x: 0, y: 0, z: 0 }} />
 
