@@ -20,7 +20,7 @@ git pull >/dev/null
 pnpm i >/dev/null
 pnpm run build >/dev/null
 sudo -u $USERNAME tmux kill-session -t $TMUX_NAME >/dev/null
-sudo -u $USERNAME tmux -d -s $TMUX_NAME 'caffeinate pnpm run serve'
+sudo -u $USERNAME tmux new -d -s $TMUX_NAME 'caffeinate pnpm run serve'
 
 # Nginx
 cp ./nginx/nginx.conf /usr/local/etc/nginx/nginx.conf >/dev/null
