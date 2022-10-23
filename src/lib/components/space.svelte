@@ -19,6 +19,7 @@
 		TextureLoader,
 		Vector3
 	} from "three"
+	import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 	import { clamp, randFloat, randInt } from "three/src/math/MathUtils.js"
 
 	let ctx: ThrelteContext
@@ -202,6 +203,35 @@
 				star.position.z += i / 20
 				if (star.position.z > 100) star.position.z -= 2000
 			})
+			requestAnimationFrame(animate)
+		}
+		animate()
+	})
+
+	/* ------------------------------- Space ship ------------------------------- */
+	onMount(async () => {
+		const loader = new GLTFLoader()
+		loader.setResourcePath("station/")
+		const object = await loader.loadAsync("station/scene.gltf")
+		ctx.scene.add(object.scene)
+
+		object.scene.scale.set(0.03, 0.03, 0.03)
+
+		object.scene.position.z -= 15000
+		object.scene.position.x = randInt(-2500, 2500)
+		object.scene.position.y = randInt(-2500, 2500)
+
+		const animate = () => {
+			object.scene.position.z += 5
+			object.scene.rotation.y += 0.001
+			object.scene.rotation.x += 0.001
+
+			// Reset station
+			if (object.scene.position.z > 1000) {
+				object.scene.position.z -= 15000
+				object.scene.position.x = randInt(-2500, 2500)
+				object.scene.position.y = randInt(-2500, 2500)
+			}
 			requestAnimationFrame(animate)
 		}
 		animate()
