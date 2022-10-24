@@ -47,7 +47,7 @@
 					? ', and'
 					: ','}"
 				url={lang[2]}
-				image="/images/{lang[1]}.svg"
+				image="/images/icons/{lang[1]}.svg"
 			/>
 		{/each}
 	</p>
@@ -55,17 +55,17 @@
 		I started coding when I was in 3rd grade with <IconText
 			space={false}
 			text="Scratch"
-			image="/images/scratch.svg"
+			image="/images/icons/scratch.svg"
 			url="https://scratch.mit.edu"
 		/>, and my first language was <IconText
 			space={false}
 			text="Javascript"
-			image="/images/javascript.svg"
+			image="/images/icons/javascript.svg"
 			url="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
 		/>, using <IconText
 			space={false}
 			text="NodeJS"
-			image="/images/node.svg"
+			image="/images/icons/node.svg"
 			url="https://nodejs.org/en/"
 		/>
 	</p>

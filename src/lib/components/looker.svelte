@@ -40,8 +40,7 @@
 	let materials: MeshLambertMaterial[] = []
 	onMount(async () => {
 		const loader = new TextureLoader()
-		loader.setPath("images/cube/")
-		const map = await loader.loadAsync("face.png")
+		const map = await loader.loadAsync("android-chrome-192x192.png")
 		map.encoding = sRGBEncoding
 		const img = new MeshLambertMaterial({ map })
 		materials = [img, img, img, img, img, img]
@@ -116,6 +115,10 @@
 		onPointerMove(event.clientX, event.clientY)
 	}}
 	on:touchstart={(event) => {
+		const touches = event.touches[0]
+		onPointerMove(touches.clientX, touches.clientY)
+	}}
+	on:touchmove={(event) => {
 		const touches = event.touches[0]
 		onPointerMove(touches.clientX, touches.clientY)
 	}}

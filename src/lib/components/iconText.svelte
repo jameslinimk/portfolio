@@ -5,15 +5,13 @@
 	export let space: boolean
 
 	let element: HTMLAnchorElement
-	$: if (element) {
-		element.style.marginRight = space ? "0.5rem" : ""
-	}
 </script>
 
 <a
 	bind:this={element}
 	href={url}
 	class="inline-flex justify-center items-center gap-1 group translate-y-[3px]"
+	style="margin-right: {space ? '0.5rem' : '0px'};"
 	target="_blank"
 >
 	<img src={image} alt={text} class="w-6 h-6 inline group-hover:scale-110 transition-all" />

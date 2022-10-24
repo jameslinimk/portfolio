@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { discord, github, titles } from "$lib/config.js"
+	import { wait } from "$lib/util.js"
 	import { onMount } from "svelte"
 	import Looker from "./looker.svelte"
 
 	export let forcePinned = false
-
-	const wait = (time: number) => new Promise((res) => setTimeout(res, time))
 
 	let subIndex = 0
 	let subtitleText = titles[subIndex]
