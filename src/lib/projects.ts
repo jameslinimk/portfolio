@@ -9,39 +9,48 @@ export interface Project {
 
 export const projects: Project[] = [
 	{
-		id: "chess-engine",
-		title: "Chess engine",
+		id: "portfolio",
+		title: "Portfolio",
 		description:
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy",
+			"The website you are currently looking at. Written in SvelteKit and Tailwind, colors inspired by Bevy.",
+		image: "/images/thumbnails/portfolio.png",
+		github: "new-portfolio",
+		wip: false
+	},
+	{
+		id: "chess-ai",
+		title: "Chess AI",
+		description:
+			"A chess AI written in Python. Agent is a minimax search and graphics are done using PyGame.",
+		image: "/images/thumbnails/chess-ai.png",
+		github: "chess-veritas-ai",
 		wip: true
 	},
 	{
-		id: "chess-engine-2 2",
-		title: "Chess engine",
+		id: "worlde-clone",
+		title: "Wordle Clone",
 		description:
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy",
+			"Yet another world clone, built using Svelte. Has 3-7 letter length words, custom guess count, word sharing, and a daily word!",
+		image: "/images/thumbnails/wordle-clone.png",
+		github: "wordlecloneweb",
 		wip: false
 	},
 	{
-		id: "chess-engine-3",
-		title: "Chess engine 3",
+		id: "world-games",
+		title: "World Games",
 		description:
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy",
+			"A web game where you have to try and find countries that are given. Pan through the world using your mouse and double click to select!",
+		image: "/images/thumbnails/world-games.png",
+		github: "world-games",
 		wip: false
 	},
 	{
-		id: "chess-engine-4",
-		title: "Chess engine 4",
+		id: "valorant-api",
+		title: "Valorant API TS Fork",
 		description:
-			"Lorem ipsum dolor sit amet ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo",
-		image: "https://wallpaperaccess.com/full/2918041.jpg",
-		github: "the-blue-guy",
+			"Fork of Henrik's Unofficial Valorant API Client, remade with typescript and types, with type testing using JSON schema.",
+		image: "/images/thumbnails/valorant-api.png",
+		github: "unofficial-valorant-api",
 		wip: false
 	}
 ]

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Footnote from "$lib/components/footnote.svelte"
 	import IconText from "$lib/components/iconText.svelte"
 	import Projects from "$lib/components/projects.svelte"
 	import Space from "$lib/components/space.svelte"
@@ -75,3 +76,4 @@
 </div>
 
 <Projects />
+<Footnote />

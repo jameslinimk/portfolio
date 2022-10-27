@@ -25,7 +25,7 @@
 					class="w-full opacity-70 group-hover:opacity-100 transition-all"
 				/>
 
-				<div class="px-4 pt-4">
+				<div class="px-4 h-36 flex flex-col items-center justify-center">
 					<h1
 						class="font-m-plus text-[#ebebeb] text-center text-2xl font-bold relative transition-all"
 					>
@@ -37,7 +37,7 @@
 					</p>
 				</div>
 
-				<div class="w-full flex m-2">
+				<div class="w-full flex m-2 mt-0">
 					<a href="https://github.com/{github}/{project.github}" target="_blank">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
