@@ -1,0 +1,19 @@
+#!/bin/bash
+
+TMUX_NAME="portfolio_server"
+
+# Going to directory of project
+cd "$(dirname "$0")" || exit
+cd ../
+
+# Update git
+git pull
+
+# Server
+pnpm i
+pnpm run build
+
+tmux kill-session -t $TMUX_NAME
+tmux new -d -s $TMUX_NAME "caffeinate pnpm run serve"
+
+echo "Finished"
