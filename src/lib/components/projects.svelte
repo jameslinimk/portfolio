@@ -38,7 +38,7 @@
 				</div>
 
 				<div class="w-full flex m-2 mt-0">
-					<a href="https://github.com/{github}/{project.github}" target="_blank">
+					<a href="https://github.com/{github}/{project.github}" target="_blank" rel="noreferrer">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-6 transition-all z-10 fill-[#ebebeb] hover:fill-[#d8d8d8] hover:scale-125"

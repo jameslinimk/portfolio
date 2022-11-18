@@ -30,21 +30,23 @@
 
 	let pinned = forcePinned
 
-	const onScroll = () => {
-		setTimeout(() => {
-			pinned = document.documentElement.scrollTop !== 0
-		}, 20)
-	}
+	onMount(() => {
+		if (forcePinned) return
+
+		const observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
+			threshold: [1]
+		})
+		observer.observe(topbar)
+	})
 
 	let topbar: HTMLDivElement
 </script>
 
 <!-- Div to detect if pinned -->
-<svelte:window on:scroll={onScroll} />
 <Looker {pinned} {topbar} />
 
 <div
-	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 top-0 sticky z-30 group transition-all shadow-[#1d1d21] shadow-sm"
+	class="min-w-full flex flex-col items-center justify-center bg-[#1d1d21] border-b-4 border-b-[#272729] p-3 -top-[1px] sticky z-30 group transition-all shadow-[#1d1d21] shadow-sm"
 	class:topbar-pin={pinned}
 	bind:this={topbar}
 >
@@ -63,7 +65,7 @@
 		<div class="bg-[#ebebeb] rounded-sm w-4 h-1 absolute -right-4 bottom-0 blinker" />
 	</h2>
 	<div class="flex items-center justify-center gap-1" class:hidden-pin={pinned}>
-		<a href="https://discord.com/users/{discord}" target="_blank">
+		<a href="https://discord.com/users/{discord}" target="_blank" rel="noreferrer">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="w-7 sm:w-9 hover:scale-105 fill-[#d8d8d8] hover:fill-[#ececec] transition-all"
@@ -81,7 +83,7 @@
 				</defs>
 			</svg>
 		</a>
-		<a href="https://github.com/{github}" target="_blank">
+		<a href="https://github.com/{github}" target="_blank" rel="noreferrer">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="w-6 sm:w-8 m-2 z-10 fill-[#d8d8d8] hover:scale-105 hover:fill-[#ececec] transition-all"
