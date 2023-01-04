@@ -35,9 +35,9 @@
 
 <Topbar forcePinned={true} />
 <div class="min-w-full flex flex-col items-center justify-center p-3 pb-5">
-	<h1 class="font-m-plus text-5xl font-bold text-[#ececec] mb-7">
+	<!-- <h1 class="font-m-plus text-5xl font-bold text-[#ececec] mb-7">
 		{data.project.title}
-	</h1>
+	</h1> -->
 	{#if readme}
 		<article
 			class="prose prose-lg md:prose-xl
@@ -49,6 +49,8 @@
 			prose-a:text-blue-300
 
 			prose-td:text-[#ececec]
+
+			prose-li:text-[#ececec]
 
 			prose-code:bg-[#1d1d21]
 			prose-code:rounded-md
