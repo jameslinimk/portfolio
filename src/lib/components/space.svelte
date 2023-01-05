@@ -31,7 +31,7 @@
 
 		/* ----------------------------- Texture loader ----------------------------- */
 		const loader = new TextureLoader()
-		loader.setPath("images/planets/")
+		loader.setPath("/images/planets/")
 		const loadPlanet = async (config: PlanetConfig, delay: number) => {
 			const extras: Object3D[] = []
 
@@ -142,8 +142,8 @@
 	/* ------------------------------- Space ship ------------------------------- */
 	onMount(async () => {
 		const loader = new GLTFLoader()
-		loader.setResourcePath("station/")
-		const object = await loader.loadAsync("station/scene.gltf")
+		loader.setResourcePath("/station/")
+		const object = await loader.loadAsync("/station/scene.gltf")
 		ctx.scene.add(object.scene)
 
 		object.scene.scale.set(0.03, 0.03, 0.03)
