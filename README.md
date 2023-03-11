@@ -1,6 +1,6 @@
 # Portfolio
 
-## Check it out [here](https://jamesalin.com)
+## Check it out [here](https://www.jamesalin.com)
 
 This is my portfolio website, showcasing a little bit about me, and some of my projects. Has a space theme in the background, with planets, stars, and a space station.
 
