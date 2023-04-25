@@ -17,6 +17,17 @@
 		)
 		const text = await res.text()
 		readme = marked.parse(text)
+
+		// replace relative image paths with absolute ones
+		const parser = new DOMParser()
+		const doc = parser.parseFromString(readme, "text/html")
+		const imgs = doc.querySelectorAll("img")
+		imgs.forEach((img) => {
+			const src = new URL(img.src)
+			const path = src.pathname.replace("/projects", "")
+			img.src = `https://raw.githubusercontent.com/${github}/${data.project.github}/master/${path}`
+		})
+		readme = doc.body.innerHTML
 	})
 </script>
 
@@ -44,7 +55,7 @@
 			class="prose prose-lg md:prose-xl
 
 			prose-headings:text-[#ececec]
-			
+
 			prose-p:text-[#ececec]
 
 			prose-a:text-blue-300

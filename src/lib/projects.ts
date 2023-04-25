@@ -27,6 +27,15 @@ export const projects: Project[] = [
 		wip: false
 	},
 	{
+		id: "chess-com-cheater",
+		title: "Chess.com cheater",
+		description:
+			"A chrome/firefox extension that runs a WASM Stockfish in chess.com games. Displays the best moves (up to 3) and evaluation for the current board.",
+		image: "/images/thumbnails/chess-com-cheater.png",
+		github: "chess-com-cheater",
+		wip: false
+	},
+	{
 		id: "ak",
 		title: "Automated Kingdom",
 		description:
