@@ -8,7 +8,6 @@
 		type ThrelteContext
 	} from "@threlte/core"
 	import { onMount } from "svelte"
-	import type { Object3D } from "three"
 	import {
 		DoubleSide,
 		Mesh,
@@ -16,9 +15,11 @@
 		MeshPhongMaterial,
 		RingGeometry,
 		SphereGeometry,
-		sRGBEncoding,
 		TextureLoader,
-		Vector3
+		Vector3,
+		sRGBEncoding,
+		type BufferAttribute,
+		type Object3D
 	} from "three"
 	import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 	import { clamp, randFloat, randInt } from "three/src/math/MathUtils.js"
@@ -42,11 +43,11 @@
 				const geometry = new RingGeometry(config.radius * 2 + 10, 1, 20)
 
 				// Make sure image is mapped to ring correctly
-				const pos = geometry.attributes.position
+				const pos = geometry.attributes.position as BufferAttribute
 				const v3 = new Vector3()
 				for (let i = 0; i < pos.count; i++) {
 					v3.fromBufferAttribute(pos, i)
-					geometry.attributes.uv.setXY(i, v3.length() < 4 ? 0 : 1, 1)
+					;(geometry.attributes.uv as BufferAttribute).setXY(i, v3.length() < 4 ? 0 : 1, 1)
 				}
 
 				const material = new MeshBasicMaterial({

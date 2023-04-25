@@ -20,7 +20,8 @@
 		sRGBEncoding,
 		TextureLoader,
 		Vector3,
-		type Camera
+		type Camera,
+		type Vector2
 	} from "three"
 
 	export let pinned: boolean
@@ -64,7 +65,7 @@
 		const intersectPoint = new Vector3()
 
 		camera = ctx.camera
-		raycaster.setFromCamera(mouse, $camera)
+		raycaster.setFromCamera(mouse as unknown as Vector2, $camera)
 		raycaster.ray.intersectPlane(plane, intersectPoint)
 		intersectPoint.z = $camera.position.z
 		lookAt = intersectPoint
